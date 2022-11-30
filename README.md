@@ -7,6 +7,8 @@ Tiles modified from kenney.nl's [1-Bit Pack](https://www.kenney.nl/assets/bit-pa
 
 ![preview 2](preview2.png)
 
+Demo app available in [releases](https://github.com/GammaGames/Playdate-Autotile/releases)
+
 ```lua
 import "autotile"
 
