@@ -6,7 +6,6 @@ STATE = {EMPTY=0, SOLID=1}
 Autotile = {}
 class("Autotile").extends(gfx.sprite)
 
-
 function Autotile.getIndex(x, y, width)
     -- Get position for a coordinate
     return math.floor(width * (y - 1) + x)
@@ -57,7 +56,7 @@ function Autotile:getTileIndex(x, y)
     if y > 1 and self.tiles[self.getIndex(x, y - 1, self.columns)] ~= STATE.EMPTY then
         bitmap += 1
     end
-    if y < self.columns and self.tiles[self.getIndex(x, y + 1, self.columns)] ~= STATE.EMPTY then
+    if y < self.rows and self.tiles[self.getIndex(x, y + 1, self.columns)] ~= STATE.EMPTY then
         bitmap += 4
     end
 
@@ -80,8 +79,8 @@ function Autotile:setupTilemap()
     self.tilemap:setTiles(Autotile.createData(self.columns, self.rows, STATE.EMPTY), self.columns)
 end
 
--- State can be whatever, I use an enum
 function Autotile:setTile(x, y, state)
+    -- State can be whatever, I use an enum
     local index = self.getIndex(x, y, self.columns)
     self.tiles[index] = state
     self:updateTileIndex(x, y)
@@ -101,8 +100,8 @@ function Autotile:setTile(x, y, state)
     end
 end
 
--- Set each cell to the returned value of a callback
 function Autotile:setCallback(data, width, callback)
+    -- Set each cell to the returned value of a callback
     for x = 1, self.columns do
         for y = 1, self.rows do
             local index = Autotile.getIndex(x, y, width)
