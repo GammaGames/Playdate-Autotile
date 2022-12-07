@@ -36,9 +36,9 @@ function UpdateNoise()
         noises, at.columns,
         function(val)
             if val > cutoff then
-                return STATE.SOLID
+                return Autotile.STATE.SOLID
             else
-                return STATE.EMPTY
+                return Autotile.STATE.EMPTY
             end
         end
     )
