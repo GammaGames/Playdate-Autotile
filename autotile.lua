@@ -1,10 +1,10 @@
 local pd <const> = playdate
 local gfx <const> = playdate.graphics
 
-STATE = {EMPTY=0, SOLID=1}
-
 Autotile = {}
 class("Autotile").extends(gfx.sprite)
+
+Autotile.STATE = {EMPTY=0, SOLID=1}
 
 function Autotile.getIndex(x, y, width)
     -- Get position for a coordinate
@@ -27,6 +27,7 @@ function Autotile.createData(width, height, value, callback)
 end
 
 function Autotile:init(path, columns, rows)
+    Autotile.super.init(self)
     -- Path must be `[filename]-table-[width]-[height]` format
     self.imagetable = gfx.imagetable.new(path)
     self.tilemap = gfx.tilemap.new()
@@ -40,23 +41,23 @@ end
 
 function Autotile:getTileIndex(x, y)
     -- Do simpile bitmask-type math to get a mapped index
-    if self.tiles[self.getIndex(x, y, self.columns)] == STATE.EMPTY then
+    if self.tiles[self.getIndex(x, y, self.columns)] == Autotile.STATE.EMPTY then
         return 0
     end
 
     local bitmap = 1
 
-    if x > 1 and self.tiles[self.getIndex(x - 1, y, self.columns)] ~= STATE.EMPTY then
+    if x > 1 and self.tiles[self.getIndex(x - 1, y, self.columns)] ~= Autotile.STATE.EMPTY then
         bitmap += 8
     end
-    if x < self.columns and self.tiles[self.getIndex(x + 1, y, self.columns)] ~= STATE.EMPTY then
+    if x < self.columns and self.tiles[self.getIndex(x + 1, y, self.columns)] ~= Autotile.STATE.EMPTY then
         bitmap += 2
     end
 
-    if y > 1 and self.tiles[self.getIndex(x, y - 1, self.columns)] ~= STATE.EMPTY then
+    if y > 1 and self.tiles[self.getIndex(x, y - 1, self.columns)] ~= Autotile.STATE.EMPTY then
         bitmap += 1
     end
-    if y < self.rows and self.tiles[self.getIndex(x, y + 1, self.columns)] ~= STATE.EMPTY then
+    if y < self.rows and self.tiles[self.getIndex(x, y + 1, self.columns)] ~= Autotile.STATE.EMPTY then
         bitmap += 4
     end
 
@@ -72,11 +73,11 @@ end
 function Autotile:setupTilemap()
     -- Reset it
     local callback = function(x, y)
-        self:setTile(x, y, STATE.EMPTY)
+        self:setTile(x, y, Autotile.STATE.EMPTY)
     end
     self.tiles = {}
-    self.tiles = Autotile.createData(self.columns, self.rows, STATE.EMPTY, callback)
-    self.tilemap:setTiles(Autotile.createData(self.columns, self.rows, STATE.EMPTY), self.columns)
+    self.tiles = Autotile.createData(self.columns, self.rows, Autotile.STATE.EMPTY, callback)
+    self.tilemap:setTiles(Autotile.createData(self.columns, self.rows, Autotile.STATE.EMPTY), self.columns)
 end
 
 function Autotile:setTile(x, y, state)
