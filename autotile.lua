@@ -1,6 +1,13 @@
 local pd <const> = playdate
 local gfx <const> = playdate.graphics
 
+local AUTOTILE_MAP = {
+    [1]=1, [2]=13, [3]=2, [4]=14,
+    [5]=5, [6]=9, [7]=6, [8]=10,
+    [9]=4, [10]=16, [11]=2, [12]=15,
+    [13]=8, [14]=12, [15]=7, [16]=11
+}
+
 Autotile = {}
 class("Autotile").extends(gfx.sprite)
 
@@ -61,7 +68,7 @@ function Autotile:getTileIndex(x, y)
         bitmap += 4
     end
 
-    return bitmap
+    return AUTOTILE_MAP[bitmap]
 end
 
 function Autotile:updateTileIndex(x, y)
